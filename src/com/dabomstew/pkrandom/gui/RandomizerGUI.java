@@ -1089,6 +1089,7 @@ public class RandomizerGUI extends javax.swing.JFrame {
             if (romHandler.canChangeStarters()) {
                 this.spCustomRB.setEnabled(true);
                 this.spRandomRB.setEnabled(true);
+                this.spRandomRB.setSelected(true);
                 this.spRandom2EvosRB.setEnabled(true);
                 if (romHandler.isYellow()) {
                     this.spCustomPoke3Chooser.setVisible(false);
@@ -1126,7 +1127,8 @@ public class RandomizerGUI extends javax.swing.JFrame {
             this.tpRandomRB.setEnabled(true);
             this.tpTypeThemedRB.setEnabled(true);
             this.tpUnchangedRB.setEnabled(true);
-            this.tpUnchangedRB.setSelected(true);
+            this.tpUnchangedRB.setSelected(false);
+            this.tpRandomRB.setSelected(true);
             this.tnRandomizeCB.setEnabled(romHandler.canChangeTrainerText());
             this.tcnRandomizeCB.setEnabled(romHandler.canChangeTrainerText());
             this.tnRandomizeCB.setVisible(romHandler.canChangeTrainerText());
@@ -1143,7 +1145,8 @@ public class RandomizerGUI extends javax.swing.JFrame {
             this.wpGlobalRB.setEnabled(true);
             this.wpRandomRB.setEnabled(true);
             this.wpUnchangedRB.setEnabled(true);
-            this.wpUnchangedRB.setSelected(true);
+            this.wpUnchangedRB.setSelected(false);
+            this.wpRandomRB.setSelected(true);
             this.wpUseTimeCB.setEnabled(false);
             this.wpNoLegendariesCB.setEnabled(false);
             if (!romHandler.hasTimeBasedEncounters()) {
@@ -1166,11 +1169,12 @@ public class RandomizerGUI extends javax.swing.JFrame {
             if (this.romHandler.canChangeStaticPokemon()) {
                 this.stpRandomL4LRB.setEnabled(true);
                 this.stpRandomTotalRB.setEnabled(true);
-
+                this.stpRandomTotalRB.setSelected(true);
             }
 
             this.tmmRandomRB.setEnabled(true);
             this.tmmUnchangedRB.setEnabled(true);
+            this.tmmRandomRB.setSelected(true);
             this.tmFullHMCompatCB.setEnabled(true);
 
             this.thcRandomTotalRB.setEnabled(true);
@@ -1195,6 +1199,7 @@ public class RandomizerGUI extends javax.swing.JFrame {
             this.igtUnchangedRB.setEnabled(true);
             this.igtBothRB.setEnabled(true);
             this.igtGivenOnlyRB.setEnabled(true);
+            this.igtGivenOnlyRB.setSelected(true);
 
             if (this.romHandler instanceof Gen1RomHandler) {
                 this.igtRandomItemCB.setVisible(false);
@@ -1204,6 +1209,8 @@ public class RandomizerGUI extends javax.swing.JFrame {
 
             this.fiUnchangedRB.setEnabled(true);
             this.fiRandomRB.setEnabled(true);
+            this.fiRandomRB.setSelected(true);
+            this.fiUnchangedRB.setSelected(false);
             this.fiShuffleRB.setEnabled(true);
 
             this.fiBanBadCB.setEnabled(false);
@@ -1221,6 +1228,9 @@ public class RandomizerGUI extends javax.swing.JFrame {
                 MiscTweak mt = MiscTweak.allTweaks.get(mti);
                 JCheckBox mtCB = tweakCheckboxes.get(mti);
                 mtCB.setSelected(false);
+                if (mt.getTweakName().equals("Fastest Text")) {
+                    mtCB.setSelected(true);
+                }
                 if ((mtsAvailable & mt.getValue()) != 0) {
                     mtCB.setVisible(true);
                     mtCB.setEnabled(true);

@@ -954,10 +954,19 @@ public class RandomizerGUI extends javax.swing.JFrame {
     // rom loading
 
     private void loadROM() {
-        romOpenChooser.setSelectedFile(null);
-        int returnVal = romOpenChooser.showOpenDialog(this);
+        int returnVal = 0;
+
+        File fhTmp = new File(System.getProperty("user.dir") + "/Pokemon - White Version (USA, Europe) (NDSi Enhanced).nds");
+        if (!fhTmp.exists()) {
+            fhTmp = new File(System.getProperty("user.dir") + "/Pokemon - Black Version (USA, Europe) (NDSi Enhanced).nds");
+        }
+        if (!fhTmp.exists()) {
+            returnVal = romOpenChooser.showOpenDialog(this);
+            fhTmp = romOpenChooser.getSelectedFile();
+        }
+
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            final File fh = romOpenChooser.getSelectedFile();
+            final File fh = fhTmp;
             try {
                 Utils.validateRomFile(fh);
             } catch (Utils.InvalidROMException e) {

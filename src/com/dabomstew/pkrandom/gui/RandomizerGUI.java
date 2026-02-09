@@ -1210,6 +1210,9 @@ public class RandomizerGUI extends javax.swing.JFrame {
             this.igtGivenOnlyRB.setEnabled(true);
             this.igtGivenOnlyRB.setSelected(true);
 
+            this.tnRandomizeCB.setSelected(true);
+            this.tcnRandomizeCB.setSelected(true);
+
             if (this.romHandler instanceof Gen1RomHandler) {
                 this.igtRandomItemCB.setVisible(false);
                 this.igtRandomIVsCB.setVisible(false);

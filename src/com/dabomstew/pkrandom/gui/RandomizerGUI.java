@@ -1593,38 +1593,40 @@ public class RandomizerGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, bundle.getString("RandomizerGUI.pokeLimitNotChosen"));
             return;
         }
-        romSaveChooser.setSelectedFile(null);
-        int returnVal = romSaveChooser.showSaveDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File fh = romSaveChooser.getSelectedFile();
-            // Fix or add extension
-            List<String> extensions = new ArrayList<String>(Arrays.asList("sgb", "gbc", "gba", "nds"));
-            extensions.remove(this.romHandler.getDefaultExtension());
-            fh = FileFunctions.fixFilename(fh, this.romHandler.getDefaultExtension(), extensions);
-            boolean allowed = true;
-            if (this.romHandler instanceof AbstractDSRomHandler) {
-                String currentFN = this.romHandler.loadedFilename();
-                if (currentFN.equals(fh.getAbsolutePath())) {
-                    JOptionPane.showMessageDialog(this, bundle.getString("RandomizerGUI.cantOverwriteDS"));
-                    allowed = false;
-                }
-            }
-            if (allowed) {
-                // Get a seed
-                long seed = RandomSource.pickSeed();
-                // Apply it
-                RandomSource.seed(seed);
-                presetMode = false;
-
-                try {
-                    CustomNamesSet cns = FileFunctions.getCustomNames();
-                    performRandomization(fh.getAbsolutePath(), seed, cns);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, bundle.getString("RandomizerGUI.cantLoadCustomNames"));
-                }
-
+        // romSaveChooser.setSelectedFile(null);
+        // int returnVal = romSaveChooser.showSaveDialog(this);
+        // int returnVal = JFileChooser.APPROVE_OPTION;
+        // if (returnVal == JFileChooser.APPROVE_OPTION) {
+        // File fh = romSaveChooser.getSelectedFile();
+        File fh = new File(System.getProperty("user.dir") + "/luke_pokemon_black_white.nds");
+        // Fix or add extension
+        List<String> extensions = new ArrayList<String>(Arrays.asList("sgb", "gbc", "gba", "nds"));
+        extensions.remove(this.romHandler.getDefaultExtension());
+        fh = FileFunctions.fixFilename(fh, this.romHandler.getDefaultExtension(), extensions);
+        boolean allowed = true;
+        if (this.romHandler instanceof AbstractDSRomHandler) {
+            String currentFN = this.romHandler.loadedFilename();
+            if (currentFN.equals(fh.getAbsolutePath())) {
+                JOptionPane.showMessageDialog(this, bundle.getString("RandomizerGUI.cantOverwriteDS"));
+                allowed = false;
             }
         }
+        if (allowed) {
+            // Get a seed
+            long seed = RandomSource.pickSeed();
+            // Apply it
+            RandomSource.seed(seed);
+            presetMode = false;
+
+            try {
+                CustomNamesSet cns = FileFunctions.getCustomNames();
+                performRandomization(fh.getAbsolutePath(), seed, cns);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, bundle.getString("RandomizerGUI.cantLoadCustomNames"));
+            }
+
+        }
+        // }
     }
 
     private Settings getCurrentSettings() throws IOException {
@@ -2005,26 +2007,26 @@ public class RandomizerGUI extends javax.swing.JFrame {
                                             String.format(bundle.getString("RandomizerGUI.raceModeCheckValuePopup"),
                                                     finishedCV.get()));
                                 } else {
-                                    int response = JOptionPane.showConfirmDialog(RandomizerGUI.this,
-                                            bundle.getString("RandomizerGUI.saveLogDialog.text"),
-                                            bundle.getString("RandomizerGUI.saveLogDialog.title"),
-                                            JOptionPane.YES_NO_OPTION);
-                                    if (response == JOptionPane.YES_OPTION) {
-                                        try {
-                                            FileOutputStream fos = new FileOutputStream(filename + ".log");
-                                            fos.write(0xEF);
-                                            fos.write(0xBB);
-                                            fos.write(0xBF);
-                                            fos.write(out);
-                                            fos.close();
-                                        } catch (IOException e) {
-                                            JOptionPane.showMessageDialog(RandomizerGUI.this,
-                                                    bundle.getString("RandomizerGUI.logSaveFailed"));
-                                            return;
-                                        }
-                                        JOptionPane.showMessageDialog(RandomizerGUI.this,
-                                                String.format(bundle.getString("RandomizerGUI.logSaved"), filename));
-                                    }
+                                    // int response = JOptionPane.showConfirmDialog(RandomizerGUI.this,
+                                    //         bundle.getString("RandomizerGUI.saveLogDialog.text"),
+                                    //         bundle.getString("RandomizerGUI.saveLogDialog.title"),
+                                    //         JOptionPane.YES_NO_OPTION);
+                                    // if (response == JOptionPane.YES_OPTION) {
+                                    //     try {
+                                    //         FileOutputStream fos = new FileOutputStream(filename + ".log");
+                                    //         fos.write(0xEF);
+                                    //         fos.write(0xBB);
+                                    //         fos.write(0xBF);
+                                    //         fos.write(out);
+                                    //         fos.close();
+                                    //     } catch (IOException e) {
+                                    //         JOptionPane.showMessageDialog(RandomizerGUI.this,
+                                    //                 bundle.getString("RandomizerGUI.logSaveFailed"));
+                                    //         return;
+                                    //     }
+                                    //     JOptionPane.showMessageDialog(RandomizerGUI.this,
+                                    //             String.format(bundle.getString("RandomizerGUI.logSaved"), filename));
+                                    // }
                                 }
                                 if (presetMode) {
                                     JOptionPane.showMessageDialog(RandomizerGUI.this,
@@ -2034,14 +2036,14 @@ public class RandomizerGUI extends javax.swing.JFrame {
                                     initialFormState();
                                 } else {
                                     // Compile a config string
-                                    try {
-                                        String configString = getCurrentSettings().toString();
-                                        // Show the preset maker
-                                        new PresetMakeDialog(RandomizerGUI.this, seed, configString);
-                                    } catch (IOException ex) {
-                                        JOptionPane.showMessageDialog(RandomizerGUI.this,
-                                                bundle.getString("RandomizerGUI.cantLoadCustomNames"));
-                                    }
+                                    // try {
+                                    //     String configString = getCurrentSettings().toString();
+                                    //     Show the preset maker
+                                    //     new PresetMakeDialog(RandomizerGUI.this, seed, configString);
+                                    // } catch (IOException ex) {
+                                    //     JOptionPane.showMessageDialog(RandomizerGUI.this,
+                                    //             bundle.getString("RandomizerGUI.cantLoadCustomNames"));
+                                    // }
 
                                     // Done
                                     RandomizerGUI.this.romHandler = null;
